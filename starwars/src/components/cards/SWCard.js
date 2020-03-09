@@ -17,7 +17,6 @@ function SWCard (props) {
   //    "headers":{
   //      "content-type":"application/octet-stream",
   //      "x-rapidapi-host":"contextualwebsearch-websearch-v1.p.rapidapi.com",
-  //      "x-rapidapi-key":"27683fcc8bmsh9beef3e502124a8p15ad68jsnd6c580ded224"
   //    },"params":{
   //      "autoCorrect":"false",
   //      "pageNumber":"1",
