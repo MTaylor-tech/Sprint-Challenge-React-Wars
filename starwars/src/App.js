@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 import CardHolder from './components/cards/CardHolder.js';
-import {Button} from 'reactstrap';
+import {Button, ButtonGroup} from 'reactstrap';
 
 const swapiCall = 'https://swapi.co/api/';
 const peopleCall = 'people/';
@@ -12,9 +12,9 @@ const App = () => {
   // Try to think through what state you'll need for this app before starting. Then build out
   // the state properties here.
   const [people, setPeople] = useState([]);
-  const [page, setPage] = useState(1);
-  const [nextPage, setNextPage] = useState(2);
-  const [prevPage, setPrevPage] = useState(0);
+  const [apiCall, setApiCall] = useState(`${swapiCall}${peopleCall}`);
+  const [nextPage, setNextPage] = useState('');
+  const [prevPage, setPrevPage] = useState('');
   const [films, setFilms] = useState([]);
 
   // Fetch characters from the star wars api in an effect hook. Remember, anytime you have a
@@ -32,37 +32,35 @@ const App = () => {
     ,[]);
 
   useEffect(()=>{
-    axios.get(`${swapiCall}${peopleCall}`, {
-    params: {
-      page: page
-    }
-  })
+    axios.get(`${apiCall}`)
   .then(function (response) {
     console.log(response);
+    setPrevPage(response.data.previous);
+    setNextPage(response.data.next);
     setPeople(response.data.results);
   })
   .catch(function (error) {
     console.log(error);
   })}
-  ,[page]);
+  ,[apiCall]);
 
   const goToNext = () => {
-    setPage(nextPage);
-    setPrevPage(prevPage+1);
-    setNextPage(nextPage+1);
+    setApiCall(nextPage);
   }
 
   const goToPrev = () => {
-    setPage(prevPage);
-    setPrevPage(prevPage-1);
-    setNextPage(nextPage-1);
+    setApiCall(prevPage);
   }
 
   return (
     <div className="App">
       <h1 className="Header">React Wars</h1>
-      {prevPage>0?<Button onClick={goToPrev}>Previous</Button>:<></>}
-      {nextPage!=null?<Button onClick={goToNext}>Next</Button>:<></>}
+      <ButtonGroup>
+        {prevPage!=null?<Button outline color="info" onClick={goToPrev}>Previous</Button>:<></>}
+        {nextPage!=null?<Button outline color="info" onClick={goToNext}>Next</Button>:<></>}
+      </ButtonGroup>
+      <br />
+      <br />
       <CardHolder people={people} films={films} />
     </div>
   );

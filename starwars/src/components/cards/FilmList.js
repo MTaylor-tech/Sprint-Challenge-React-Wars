@@ -8,7 +8,7 @@ function FilmList (props) {
       let i = parseInt(film.charAt(film.length-2))-1;
       return (props.allFilms[i]);
     }))
-  ,[films]);
+  ,[]);
 
   return (
     <ul>

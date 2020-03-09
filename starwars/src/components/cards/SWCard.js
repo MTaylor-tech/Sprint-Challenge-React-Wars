@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, forceUpdate} from 'react';
 import {
   Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, CardHeader
@@ -8,40 +8,20 @@ import axios from 'axios';
 
 
 function SWCard (props) {
-  // const [imageURL, setImageURL] = useState('');
+  const [personFilms, setPersonFilms] = useState(props.person.films);
+  const [allFilms, setAllFilms] = useState(props.films);
 
-  //useEffect(
-  //  axios({
-  //    "method":"GET",
-  //    "url":"https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI",
-  //    "headers":{
-  //      "content-type":"application/octet-stream",
-  //      "x-rapidapi-host":"contextualwebsearch-websearch-v1.p.rapidapi.com",
-  //    },"params":{
-  //      "autoCorrect":"false",
-  //      "pageNumber":"1",
-  //      "pageSize":"1",
-  //      "q":props.person.name,
-  //      "safeSearch":"true"
-  //    }
-  //    })
-  //    .then((response)=>{
-  //      console.log(response);
-  //      setImageURL(response.data.value[0].url);
-  //    })
-  //    .catch((error)=>{
-  //      console.log(error)
-  //    }), []);
-  //<CardImg top width="100%" src={imageURL} alt={props.person.name} />
-
-
+  useEffect(()=>{
+    setPersonFilms(props.person.films);
+    setAllFilms(props.films);
+  },[props.person.films, props.films])
 
   return (
-        <Card body inverse color="info">
+        <Card body outline color="info">
         <CardHeader>{props.person.name}</CardHeader>
         <CardBody>
           <CardTitle>{props.person.birth_year}</CardTitle>
-          <FilmList allFilms={props.films} personFilms={props.person.films} />
+          <FilmList allFilms={allFilms} personFilms={personFilms} />
         </CardBody>
       </Card>
   );
