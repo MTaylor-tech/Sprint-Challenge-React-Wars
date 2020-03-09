@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 import CardHolder from './components/cards/CardHolder.js';
+import {Button} from 'reactstrap';
 
 const swapiCall = 'https://swapi.co/api/';
 const peopleCall = 'people/';
@@ -45,9 +46,23 @@ const App = () => {
   })}
   ,[page]);
 
+  const goToNext = () => {
+    setPage(nextPage);
+    setPrevPage(prevPage+1);
+    setNextPage(nextPage+1);
+  }
+
+  const goToPrev = () => {
+    setPage(prevPage);
+    setPrevPage(prevPage-1);
+    setNextPage(nextPage-1);
+  }
+
   return (
     <div className="App">
       <h1 className="Header">React Wars</h1>
+      {prevPage>0?<Button onClick={goToPrev}>Previous</Button>:<></>}
+      {nextPage!=null?<Button onClick={goToNext}>Next</Button>:<></>}
       <CardHolder people={people} films={films} />
     </div>
   );
